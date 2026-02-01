@@ -1,0 +1,15 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+import { VakiList } from '../components/VakiList';
+
+const { id } = Astro.params;
+
+if (!id) {
+    return Astro.redirect('/');
+}
+---
+
+<Layout title="Tu Lista">
+	<VakiList client:load vakiId={id} />
+</Layout>

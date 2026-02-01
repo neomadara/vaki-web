@@ -1,0 +1,48 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="light">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Vaki - Compras grupales coordinadas" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Vaki</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+	</head>
+	<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-100 font-display">
+		<div class="max-w-[600px] mx-auto px-4 sm:px-6">
+			<slot />
+		</div>
+	</body>
+</html>
+
+<style is:global>
+	@import "../styles/global.css";
+
+	body {
+		font-family: "Inter", sans-serif;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.item-card-hover:hover {
+		border-color: #e2e8f0;
+		transform: translateY(-1px);
+		transition: all 0.2s ease;
+	}
+
+	.checkbox-custom:checked {
+		background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBL25Ximy0Oi5C-QFDvl4wQ-GkmJZRg7pyg2AgWSpCkuhHFm-T8ms_pLy1LnAbdM-K5HZUyGobiTCY2OjoIXxRIwOVF5n9EqTVS-u--p0HDrLNo9KiBbGTlITzp37ZicCHaNHPH0La32kAN6NZYx6HcltX7yeuQaooYwNBYIzv_WOWY9Z7Pef_i6iEHpCAWPo3h2QOG8WzHwQhsHPil-wwJAUirjy11r_KesaeAZVLZ8hBeN9NJvF8Xo-LU5neEENW9rNDODNc4qqcu);
+		background-size: cover;
+	}
+</style>

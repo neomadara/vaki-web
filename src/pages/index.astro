@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Organiza tu compra grupal">
+	<div class="flex flex-col items-center justify-center min-h-[80vh] text-center space-y-12">
+		<div class="space-y-6">
+            <div class="flex justify-center">
+                <div class="size-20 text-primary">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+            </div>
+			<div class="space-y-2">
+                <h1 class="text-5xl font-black tracking-tight text-slate-900 dark:text-white">
+                    Vaki
+                </h1>
+                <p class="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-xs mx-auto">
+                    La forma más sencilla de coordinar compras entre amigos.
+                </p>
+            </div>
+		</div>
+
+		<button 
+			id="create-vaki"
+			class="group relative px-10 py-5 bg-primary text-white font-bold text-xl rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all duration-200"
+		>
+			Crear mi Vaki
+            <span class="ml-2 block sm:inline-block opacity-70 group-hover:opacity-100 transition-opacity">🚀</span>
+		</button>
+
+		<div class="grid grid-cols-3 gap-8 w-full pt-8 border-t border-slate-100 dark:border-slate-800">
+			<div class="space-y-1">
+				<div class="text-2xl">⚡️</div>
+				<div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Instantáneo</div>
+			</div>
+			<div class="space-y-1">
+				<div class="text-2xl">🔗</div>
+				<div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sin Cuenta</div>
+			</div>
+			<div class="space-y-1">
+				<div class="text-2xl">✨</div>
+				<div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Real-time</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	import { v4 as uuidv4 } from 'uuid';
+
+	const btn = document.getElementById('create-vaki');
+	btn?.addEventListener('click', () => {
+		const id = uuidv4();
+		window.location.href = `/${id}`;
+	});
+</script>
