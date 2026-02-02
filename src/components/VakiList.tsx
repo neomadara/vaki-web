@@ -45,19 +45,24 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
 
     const addItem = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newItem.trim() || !nickname) return;
+        const valueToSave = newItem.trim();
+        if (!valueToSave || !nickname) return;
 
         try {
+            // Limpiamos el input inmediatamente para una sensación más fluida
+            setNewItem('');
+
             const itemsRef = collection(db, 'vakis', vakiId, 'items');
             await addDoc(itemsRef, {
-                name: newItem.trim(),
+                name: valueToSave,
                 addedBy: nickname,
                 bought: false,
                 createdAt: serverTimestamp()
             });
-            setNewItem('');
         } catch (error) {
             console.error("Error adding document: ", error);
+            // Si falla, devolvemos el texto para que el usuario no tenga que reescribirlo
+            setNewItem(valueToSave);
         }
     };
 
