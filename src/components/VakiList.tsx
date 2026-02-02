@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../lib/firebase';
+import { getDb } from '../lib/firebase';
 import { collection, onSnapshot, query, orderBy, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import type { VakiItem } from '../types';
 
 interface Props {
     vakiId: string;
+    firebaseConfig?: any;
 }
 
-export const VakiList: React.FC<Props> = ({ vakiId }) => {
+export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
     const [items, setItems] = useState<VakiItem[]>([]);
     const [newItem, setNewItem] = useState('');
     const [nickname, setNickname] = useState<string | null>(null);
     const [isCopying, setIsCopying] = useState(false);
+
+    // Inicializamos la base de datos con la config que venga (Runtime o Build-time)
+    const db = getDb(firebaseConfig);
 
     useEffect(() => {
         // Nickname logic

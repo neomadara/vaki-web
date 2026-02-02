@@ -8,8 +8,18 @@ const { id } = Astro.params;
 if (!id) {
     return Astro.redirect('/');
 }
+
+// Obtenemos la config desde las variables de entorno reales de Google Run (Runtime)
+const firebaseConfig = {
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID
+};
 ---
 
 <Layout title="Tu Lista">
-	<VakiList client:load vakiId={id} />
+	<VakiList client:load vakiId={id} firebaseConfig={firebaseConfig} />
 </Layout>
