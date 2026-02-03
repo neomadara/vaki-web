@@ -53,11 +53,15 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
             setNewItem('');
 
             const itemsRef = collection(db, 'vakis', vakiId, 'items');
+            const now = new Date();
+            const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
+
             await addDoc(itemsRef, {
                 name: valueToSave,
                 addedBy: nickname,
                 bought: false,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
+                expiresAt: expiresAt
             });
         } catch (error) {
             console.error("Error adding document: ", error);
@@ -88,8 +92,15 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
         setTimeout(() => setIsCopying(false), 2000);
     };
 
-    const pendingItems = items.filter(i => !i.bought);
-    const boughtItems = items.filter(i => i.bought);
+    const now = new Date();
+    const activeItems = items.filter(item => {
+        if (!item.expiresAt) return true; // Legacy items without expiresAt
+        const expiryDate = (item.expiresAt as any).toDate ? (item.expiresAt as any).toDate() : new Date(item.expiresAt as any);
+        return expiryDate > now;
+    });
+
+    const pendingItems = activeItems.filter(i => !i.bought);
+    const boughtItems = activeItems.filter(i => i.bought);
 
     return (
         <>

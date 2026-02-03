@@ -7,4 +7,5 @@ export interface VakiItem {
   bought: boolean;
   boughtBy?: string;
   createdAt: Timestamp | Date;
+  expiresAt: Timestamp | Date;
 }
