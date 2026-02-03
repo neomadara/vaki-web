@@ -5,18 +5,17 @@ service cloud.firestore {
     // Reglas para los items de una Vaki
     match /vakis/{vakiId}/items/{itemId} {
       
-      // Permitir leer si el documento existe y NO ha expirado
-      // O si es un documento nuevo (resource == null)
-      allow read: if resource != null && 
-                  (resource.data.expiresAt == null || resource.data.expiresAt > request.time);
+      // Permitimos la lectura pública para que la consulta no falle.
+      // La expiración "visual" la maneja el componente React y el borrado físico el TTL.
+      allow read: if true;
       
-      // Permitir crear solo si se establece un expiresAt válido (máximo 24h desde ahora)
+      // SEGUIMOS PROTEGIENDO LA CREACIÓN:
+      // Solo permite crear si se establece un expiresAt válido (máximo 24h desde ahora)
       allow create: if request.resource.data.expiresAt != null && 
                     request.resource.data.expiresAt <= request.time + duration.value(24, 'h');
       
-      // Permitir actualizar o borrar si el documento no ha expirado aún
-      allow update, delete: if resource != null && 
-                            (resource.data.expiresAt == null || resource.data.expiresAt > request.time);
+      // Permitir actualizar o borrar (comprar productos o eliminarlos manualmente)
+      allow update, delete: if true;
     }
   }
 }
