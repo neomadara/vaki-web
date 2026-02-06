@@ -54,7 +54,8 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
 
             const itemsRef = collection(db, 'vakis', vakiId, 'items');
             const now = new Date();
-            const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours from now
+            // Usamos 23h 55m para evitar problemas de sincronización de reloj con las reglas de Firebase
+            const expiresAt = new Date(now.getTime() + (23 * 60 + 55) * 60 * 1000);
 
             await addDoc(itemsRef, {
                 name: valueToSave,
