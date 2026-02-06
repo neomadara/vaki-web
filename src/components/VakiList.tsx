@@ -37,7 +37,10 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
                 id: doc.id,
                 ...doc.data()
             })) as VakiItem[];
+            console.log("Vaki Debug - Fetched items:", fetchedItems);
             setItems(fetchedItems);
+        }, (error) => {
+            console.error("Vaki Error - Snapshot listener failed:", error);
         });
 
         return () => unsubscribe();
@@ -183,7 +186,14 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
                         </div>
                     ))}
                     {pendingItems.length === 0 && (
-                        <p className="text-center text-slate-400 py-4 text-sm italic italic_test">No hay productos pendientes</p>
+                        <div className="text-center py-4">
+                            <p className="text-slate-400 text-sm italic italic_test">No hay productos pendientes</p>
+                            {(items.length - activeItems.length) > 0 && (
+                                <p className="text-slate-400/60 text-xs mt-2">
+                                    ({items.length - activeItems.length} items ocultos por antigüedad &gt; 24h)
+                                </p>
+                            )}
+                        </div>
                     )}
                 </div>
             </section>
