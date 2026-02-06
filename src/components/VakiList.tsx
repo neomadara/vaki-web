@@ -30,13 +30,23 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
 
         // Firestore Real-time listener
         const itemsRef = collection(db, 'vakis', vakiId, 'items');
-        const q = query(itemsRef, orderBy('createdAt', 'desc'));
+        // Simplificamos la query para evitar problemas de índices o campos faltantes
+        // Ordenamos en el cliente
+        const q = query(itemsRef);
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const fetchedItems = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             })) as VakiItem[];
+
+            // Ordenamiento Cliente (descendente por fecha de creación)
+            fetchedItems.sort((a, b) => {
+                const dateA = a.createdAt ? (a.createdAt as any).seconds : 0;
+                const dateB = b.createdAt ? (b.createdAt as any).seconds : 0;
+                return dateB - dateA;
+            });
+
             console.log("Vaki Debug - Fetched items:", fetchedItems);
             setItems(fetchedItems);
         }, (error) => {
