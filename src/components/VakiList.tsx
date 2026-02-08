@@ -31,7 +31,7 @@ export const VakiList: React.FC<Props> = ({ vakiId, firebaseConfig }) => {
         // Firestore Real-time listener
         const itemsRef = collection(db, 'vakis', vakiId, 'items');
         // Simplificamos la query para evitar problemas de índices o campos faltantes
-        // Ordenamos en el cliente
+        // Ordenamos en el cliente. Usamos allow read: if true en las reglas para que no falle.
         const q = query(itemsRef);
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
