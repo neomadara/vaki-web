@@ -81,3 +81,11 @@ firebase deploy --only firestore:rules
 | `npm run dev` | Inicia el servidor de desarrollo |
 | `npm run build` | Genera la versión de producción en `./dist/` |
 | `npm run preview` | Previsualiza la versión de producción localmente |
+
+## 🐳 Despliegue con Docker
+
+El proyecto incluye una configuración de Docker optimizada en dos etapas (build y runtime) para facilitar el despliegue:
+
+1. **Construir la imagen:**
+   ```bash
+   docker build -t vaki-web .
